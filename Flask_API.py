@@ -11,10 +11,10 @@ app = Flask(__name__)
 
 # SET UP DATABASE & DB REFERENCES
 engine = create_engine("sqlite:///Resources/hawaii.sqlite")
-Base = automap_base()
-Base.prepare(engine, reflect=True)
-Measurement = Base.classes.measurement
-Station = Base.classes.station
+base = automap_base()
+base.prepare(engine, reflect=True)
+measurement = base.classes.measurement
+station = base.classes.station
 
 
 # CREATE FLASK ROUTES
@@ -84,7 +84,8 @@ def tobs():
     # Connect to database
     session = Session(engine)
 
-    # YOUR JOB: DEFINE THE tobs_data VARIABLE
+    # DEFINE THE tobs_data VARIABLE
+    tobs_data=session.query(measurement.date,measurement.tobs).filter(measurement.date>=last_year).filter(measurement.station=='USC00519281').all()
 
     # Disconnect from database
     session.close()
